@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EDAcanvas</title>
+    <style>
+        canvas {
+            border: 0.5px solid black;
+            /* background: red; */
+            /* height: 100%;
+            width: 100%; */
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./EDAcanvas.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <p id="demo">Current Module is </p>
+        <p>PS. 输入框中数字范围是10001 - 13999,随便输入一个数字都行,但是有一些文件(很少很少!)是不存在的</p>
+        <P>PPS. 如果提交后没反应 说明没有这个文件 继续输入即可</P>
+        <p>PPPS. 各个ports 之间的相互连接也有约束 以后可能通过颜色进行表示。目前还没做出来.[目前正在全力攻克这个任务] </p>
+    </div>
+    <div>
+        <p>输入要查找的电路图</p>
+        <select id="package">
+            <option value="16">Package16</option>
+            <option value="20">Package20</option>
+
+        </select>
+
+
+        具体编号: <input type="text" id="packageNameInput" value="12333">
+        <input type="button" value="提交" onclick="get_package_name()" style="width :100px; height : 50px">
+
+    </div>
+    <canvas>
+
+    </canvas>
+
+
+    <!-- <input type="button" class="choice" onclick="show_button()" value="显示所有连接"> -->
+    <div id="tg">
+        <p>连接</p>
+
+    </div>
+    <input type='button' value='test' onclick=>
+</body>
+
+
+
+</html>
