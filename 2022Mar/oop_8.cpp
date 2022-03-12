@@ -176,7 +176,7 @@ void read_chip(const vector<string> &lines)
     vector<vector<double> > area;
     vector<Module> modules;
     string rule;
-    for (auto line : lines)
+    for (auto &line : lines)
     {
         if (line.find("Area") != string::npos)
         {
