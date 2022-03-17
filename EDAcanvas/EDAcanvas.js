@@ -2,6 +2,82 @@ var packageName;
 var m_pkg = "16-10582";
 var tot;
 var test0;
+var per_all_routes;
+
+var current_pkg = "";
+
+
+function show_link_button() {
+    var current_pkg_1 = document.getElementById("package").value;
+    var current_pkg_2 = document.getElementById("packageNameInput").value;
+    var per_all_links;
+    $.ajax({
+        async: false,
+        type: "GET",
+        dataType: "json",
+        url: "./data/" + current_pkg_1 + "-" + current_pkg_2 + "connect.json",
+        result: {},
+        success: function (result) {
+            per_all_links = result;
+            console.log(per_all_links);
+        }
+    });
+    var canvas = document.querySelector('canvas');
+    // 目前思路：最终传入绘图函数的会是这样一个数据：Object{ Location:[[], [], [], []], Type: ,Format}
+    var c_ = canvas.getContext('2d');
+    c_.width = 100;
+    current_pkg = current_pkg_1 + "-" + current_pkg_2;
+    draw_canvas3(current_pkg);
+    var current_link = document.getElementById("linkNumber").value;
+    // alert(current_link)
+
+    var temp_module_data = per_all_routes.Modules;
+    var temp_area_data = per_all_routes.Area;
+    tot = temp_module_data;
+    var modify_x = 10000;
+    var modify_y = 10000;
+    var max_x = -2000;
+    var max_y = -2000;
+
+    for (var i = 0; i < temp_area_data.length; i++) {
+        if (temp_area_data[i][0] < modify_x) {
+            modify_x = temp_area_data[i][0];
+        }
+        if (temp_area_data[i][1] < modify_y) {
+            modify_y = temp_area_data[i][1];
+        }
+        if (temp_area_data[i][0] > max_x) {
+            max_x = temp_area_data[i][0];
+        }
+        if (temp_area_data[i][1] > max_y) {
+            max_y = temp_area_data[i][1];
+        }
+    }
+    console.log(per_all_links)
+    console.log(per_all_routes)
+    var target_mods;
+    var target_ports;
+    var record = [];
+    for (var k = 0; k < per_all_links.length; k++) {
+        if (per_all_links[k].Link == "Link" + current_link + ":") {
+            target_mods = per_all_links[k].Mods;
+            target_ports = per_all_links[k].Connects;
+            break;
+        }
+    }
+
+    var all_module_sim = per_all_routes.Modules;
+
+    for (var idx = 0; idx < 3; idx++) {
+        for (var i = 0; i < all_module_sim.length; i++) {
+            if (all_module_sim[i].Module == target_mods[idx]) {
+                record.push(all_module_sim[i].Ports[parseInt(target_ports[idx]) - 1]);
+                break;
+            }
+        }
+    }
+    draw_canvas5(record, modify_x, modify_y);
+}
 
 function draw_canvas3(VLSI) {
     var canvas = document.querySelector('canvas');
@@ -9,11 +85,12 @@ function draw_canvas3(VLSI) {
     var c = canvas.getContext('2d');
     // js supports string -> float
     var test_data;
-    var con_data;
     var modify_x = 10000;
     var modify_y = 10000;
     var max_x = -2000;
     var max_y = -2000;
+    var con_data;
+
     /**
      * adjust canvas size
      * @param {*} x_min 
@@ -77,18 +154,20 @@ function draw_canvas3(VLSI) {
             c.fillText(target.Module_name, center_x, center_y);
         }
     }
-    // console.log("Hello!" + m_pkg);
+
     /**
      * target: load json from computer
      * @param {json local path} path 
      */
     function extract_json_path(path) {
         $.ajax({
+            async: false,
             type: "GET",
             dataType: "json",
             url: path,
             result: {},
             success: function (result) {
+                per_all_routes = result;
                 test_data = result;
                 test0 = result;
                 process_data(test_data);
@@ -116,6 +195,7 @@ function draw_canvas3(VLSI) {
                 max_y = temp_area_data[i][1];
             }
         }
+        // resize_canvas(100, 200, 300, 400);
         resize_canvas(modify_x, max_x, modify_y, max_y);
 
         // console.log("Module data:" + temp_module_data);
@@ -135,67 +215,34 @@ function draw_canvas3(VLSI) {
         }
     }
     var json_pth = "./data/" + VLSI + ".json";
-    var connect_pth = "./data/" + VLSI + "connect.json";
     extract_json_path(json_pth);
-    // alert(test0);
-    // extract_connect_json_path(connect_pth);
 }
 
-// function draw_canvas4(VLSI) {
-//     var connect_pth = "./data/" + VLSI + "connect.json";
-//     extract_connect_json_path(connect_pth, VLSI);
-
-// }
-
-
-function extract_connect_json_path(VLSI) {
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "./data/" + VLSI + "connect.json",
-        connect_result: {},
-        success: function (connect_result) {
-            con_data = connect_result;
-            // process_connect_data(con_data);
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: "./data/" + VLSI + ".json",
-                result: {},
-                success: function (result) {
-                    // result 存储的是
-                    test_data = result;
-                    $("#tg").html(""); // 清除存储tag的所有内容
-                    // alert(con_data.length);
-                    console.log(con_data);
-                    // radio input 
-                    var e = document.getElementById("tg");
-                    // var div = document.createElement("div");
-                    // function output(i) {
-                    //     alert("HA");
-                    // }
-
-                    for (var i = 0; i < con_data.length; i++) {
-                        var button = document.createElement("input");
-                        button.setAttribute("type", "checkbox");
-                        // button.setAttribute("value", 10);
-                        button.setAttribute("value", (i + 1));
-                        button.setAttribute("id", "box" + i);
-                        // button.innerHTML = "Link " + (i + 1);
-                        // button.setAttribute("class", class);
-                        // button.style.width = "12%";
-                        // button.setAttribute("checked", output(i));
-                        e.appendChild(button);
-                    }
-                    // document.getElementById("form").appendChild(div);
-                }
-            });
+function draw_canvas5(links, modify_x, modify_y) {
+    var canvas = document.querySelector('canvas');
+    var c = canvas.getContext('2d');
+    for (var k = 0; k < links.length; k++) {
+        var detail_route = links[k].Location;
+        c.setLineDash([]);
+        c.beginPath();
+        c.moveTo(parseFloat(detail_route[0][0] - modify_x) * 2, parseFloat(detail_route[0][1] - modify_y) * 2);
+        for (var i = 1; i < detail_route.length; i++) {
+            let next_x = parseFloat(detail_route[i][0] - modify_x) * 2;
+            let next_y = parseFloat(detail_route[i][1] - modify_y) * 2;
+            c.lineTo(next_x, next_y);
         }
-    });
+        c.lineTo(parseFloat(detail_route[0][0] - modify_x) * 2, parseFloat(detail_route[0][1] - modify_y) * 2);
+        c.fillStyle = "rgba(67,142,219, 0.8)";
+        c.fill();
+        c.stroke();
+        // console.log(modify_x);
+    }
 }
+
 
 /**
- * 处理connect的数据
+ * 
+ * @param {*} connect_data 
  */
 function process_connect_data(connect_data) {
     for (var i = 0; i < connect_data.length; i++) {
@@ -203,14 +250,13 @@ function process_connect_data(connect_data) {
         var current_connect = connect_data[i];
     }
 }
-// process_connect_data()
 
 function get_package_name() {
     var t = $("#packageNameInput").val();
     var pkg = $('#package').val();
     pkg = pkg + "-" + t;
     m_pkg = pkg;
-    document.getElementById("demo").innerHTML = "Current package name:" + pkg;
+    document.getElementById("demo").innerHTML = "当前展示的电路板ID:" + pkg;
     draw_canvas3(m_pkg);
 }
 
@@ -219,11 +265,11 @@ $(document).ready(function () {
         var $s = $('#packageNameInput').val();
         var $p = $('#package').val();
         if (e.keyCode == 13) {
-            // alert($p + "-" + $s);
-            draw_canvas3($p + "-" + $s);
-            extract_connect_json_path($p + "-" + $s);
-            // draw_canvas4($p + "-" + $s);
-            document.getElementById("demo").innerHTML = "Current package name:" + $p + "-" + $s;
+
+            current_pkg = $p + "-" + $s;
+            draw_canvas3(current_pkg);
+            // extract_connect_json_path($p + "-" + $s);
+            document.getElementById("demo").innerHTML = "当前展示的电路板ID:" + $p + "-" + $s;
         }
     });
 });

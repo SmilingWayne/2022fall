@@ -10,13 +10,10 @@
     <style>
         canvas {
             border: 0.5px solid black;
-            /* background: red; */
-            /* height: 100%;
-            width: 100%; */
         }
 
         body {
-            margin: 0;
+            margin: 15;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -25,36 +22,43 @@
 </head>
 
 <body>
-    <div>
+    <h1 style="text-align: center;">EDA 可视化分析 </h1>
+    <div style="text-align: center;">
         <p id="demo">Current Module is </p>
         <p>PS. 输入框中数字范围是10001 - 13999,随便输入一个数字都行,但是有一些文件(很少很少!)是不存在的</p>
-        <P>PPS. 如果提交后没反应 说明没有这个文件 继续输入即可</P>
-        <p>PPPS. 各个ports 之间的相互连接也有约束 以后可能通过颜色进行表示。目前还没做出来.[目前正在全力攻克这个任务] </p>
+        <P>PPS. 如果提交后没反应 说明没有这个文件 继续输入即可, 先选定包</P>
     </div>
-    <div>
-        <p>输入要查找的电路图</p>
-        <select id="package">
+    <div style="text-align: center; border:2px dashed #F00;padding-bottom: 10px;">
+        <select id="package" style="border:1px solid #C0C0C0;width:182px;height:50px; font-size: medium;">
             <option value="16">Package16</option>
             <option value="20">Package20</option>
 
         </select>
 
 
-        具体编号: <input type="text" id="packageNameInput" value="12333">
-        <input type="button" value="提交" onclick="get_package_name()" style="width :100px; height : 50px">
+        具体编号: <input type="text" id="packageNameInput" value="12333"
+            style="height: 43px; width:100px; font-size:medium">
+        <button type="button" onclick="get_package_name()"
+            style="width :100px; height : 50px;font-size: medium;">提交</button>
+        <br>
+        <br>
+        输入连接(1-8)<input type="number" id="linkNumber" style="width :100px; height : 45px;font-size: medium;">
+
+        <button type="button" onclick="show_link_button()"
+            style="width :100px; height : 50px; font-size: medium;">展示连接</button>
 
     </div>
-    <canvas>
 
-    </canvas>
+    <br>
+    <br>
+    <div style="text-align: center;">
+        <canvas>
+            浏览器不支持Canvas画布显示!
 
-
+        </canvas>
+    </div>
     <!-- <input type="button" class="choice" onclick="show_button()" value="显示所有连接"> -->
-    <div id="tg">
-        <p>连接</p>
 
-    </div>
-    <input type='button' value='test' onclick=>
 </body>
 
 
