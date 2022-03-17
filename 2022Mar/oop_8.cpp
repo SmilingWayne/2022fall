@@ -10,27 +10,24 @@
 #include <algorithm>
 using namespace std;
 
-class output_test
+class ExceptionClass
 {
+    friend ostream &operator<<(ostream &out, const ExceptionClass &a);
     string name;
-    string number;
-    friend ostream &operator<<(ostream &out, const output_test &a);
 
 public:
-    output_test(){};
-    output_test(string a, string b)
+    ExceptionClass(){};
+    ExceptionClass(const string &a)
     {
         name = a;
-
-        number = b;
     }
 };
-ostream &operator<<(ostream &out, const output_test &a)
+
+ostream &operator<<(ostream &out, const ExceptionClass &a)
 {
-    out << "Name: " << a.name << " Number :" << a.number << '\n';
+    out << a.name << endl;
     return out;
 }
-
 class Module
 {
     friend class Port;
