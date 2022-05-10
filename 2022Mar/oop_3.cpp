@@ -11,6 +11,10 @@ using namespace std;
  * */
 class Complex
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1a5228d33e74ab28861771407bf62ec180b0479d
     // friend Complex operator++();
     friend Complex operator++(Complex &a);
     friend Complex operator+(const double &a, const Complex &b);

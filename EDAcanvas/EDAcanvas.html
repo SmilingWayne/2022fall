@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EDAcanvas</title>
+    <style>
+        canvas {
+            border: 0.5px solid black;
+        }
+
+        body {
+            margin: 15;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./EDAcanvas.js"></script>
+
+</head>
+
+<body>
+    <h1 style="text-align: center;">EDA 可视化分析 </h1>
+    <div style="text-align: center;">
+        <p id="demo">Current Module is </p>
+        <p>PS. 输入框中数字范围是10001 - 13999,随便输入一个数字都行,但是有一些文件(很少很少!)是不存在的</p>
+        <P>PPS. 如果提交后没反应 说明没有这个文件 继续输入即可, 先选定包</P>
+    </div>
+    <div style="text-align: center; border:2px dashed #F00;padding-bottom: 10px;">
+        <select id="package" style="border:1px solid #C0C0C0;width:182px;height:50px; font-size: medium;">
+            <option value="16">Package16</option>
+            <option value="20">Package20</option>
+
+        </select>
+
+
+        具体编号: <input type="text" id="packageNameInput" value="12333"
+            style="height: 43px; width:100px; font-size:medium">
+        <button type="button" onclick="get_package_name()"
+            style="width :100px; height : 50px;font-size: medium;">提交</button>
+        <br>
+        <br>
+        输入连接(1-8)<input type="number" id="linkNumber" style="width :100px; height : 45px;font-size: medium;">
+
+        <button type="button" onclick="show_link_button()"
+            style="width :100px; height : 50px; font-size: medium;">展示连接</button>
+
+    </div>
+
+    <br>
+    <br>
+    <div style="text-align: center;">
+        <canvas>
+            浏览器不支持Canvas画布显示!
+
+        </canvas>
+    </div>
+    <!-- <input type="button" class="choice" onclick="show_button()" value="显示所有连接"> -->
+
+</body>
+
+
+
+</html>
