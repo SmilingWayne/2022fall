@@ -11,7 +11,6 @@ using namespace std;
  * */
 class Complex
 {
-
     // friend Complex operator++();
     friend Complex operator++(Complex &a);
     friend Complex operator+(const double &a, const Complex &b);

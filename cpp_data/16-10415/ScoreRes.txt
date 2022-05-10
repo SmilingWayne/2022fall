@@ -1,7 +1,0 @@
-Area Ratio:0.524462
-Count Ratio:0.5
-Ratio:0.262231
-Routing Length:4797.57
-Gravity Point: (331.55,228.13)
-Valid Module:M9 M5 M11 M1 M6 M2 M16 M12
-Reward:0.38127
